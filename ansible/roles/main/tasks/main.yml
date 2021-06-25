@@ -1,12 +1,16 @@
 ---
 - name: Wait for any unattended upgrade to finish
-  ansible.builtin.raw: >
+  ansible.builtin.raw: |
     systemd-run --property="After=apt-daily.service apt-daily-upgrade.service" \
                 --wait /bin/true
 
 # Some Google Cloud components don't like IPv6 ingress
 - name: Disable IPv6
-  ansible.posix.sysctl: name={{ item }} value=1 state=present reload=yes
+  ansible.posix.sysctl:
+    name: "{{ item }}"
+    value: 1
+    state: present
+    reload: yes
   with_items:
   - net.ipv6.conf.all.disable_ipv6
   - net.ipv6.conf.default.disable_ipv6
@@ -72,7 +76,33 @@
     dest: ~/.config/gcloud/configurations/config_finngen
   become: no
 
-# TODO: Set up Docker/GCP configuration
+- name: Write Google Cloud SDK "docker" configuration
+  ansible.builtin.template:
+    src: config_docker.j2
+    dest: ~/.config/gcloud/configurations/config_docker
+  become: no
+
+- name: Copy Google Cloud service account key for container registry
+  ansible.builtin.copy:
+    src: "{{ google.sa.container.key }}"
+    dest: ~/container-registry.key.json
+    mode: "0600"
+  become: no
+
+# FIXME This is probably not idempotent
+- name: Activate container registry service account and configure Docker
+  ansible.builtin.shell: |
+    gcloud config configurations activate docker
+    gcloud auth activate-service-account {{ google.sa.container.account }}@{{ google.project.container }}.iam.gserviceaccount.com --key-file=/home/ubuntu/container-registry.key.json
+    gcloud auth configure-docker --quiet
+  become: no
+
+- name: Copy Docker pull-tag-push helper script
+  ansible.builtin.template:
+    src: docker-dance.sh.j2
+    dest: ~/docker-dance.sh
+    mode: "0700"
+  become: no
 
 - name: Checkout the TRE codebase
   ansible.builtin.git:

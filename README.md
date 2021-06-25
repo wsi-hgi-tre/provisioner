@@ -18,13 +18,14 @@ manage the Solita TRE.
 You will need to create an `ansible/vars.yml` file, that contains:
 
 * The Git branch of the TRE repository to check out;
-* The Google Cloud master project name;
-* Your GitHub username (to clone the TRE repository);
-* Your GitHub password or authentication token.
+* The Google Cloud master and container project names;
+* The container registry service account and key file;
+* Your GitHub username and password/authentication token.
 
 An example file can be found in `ansible/vars.yml.example`.
 
-**Warning** Do not check `ansible/vars.yml` in!
+**Warning** Do not check `ansible/vars.yml` or any Google Cloud service
+account keys in!
 
 ## Usage
 
@@ -35,6 +36,14 @@ provision the machine with:
 
 The TRE codebase is checked out into `~/finngen`, at the branch declared
 in `ansible/vars.yml`.
+
+To push an image from DockerHub into the Google Cloud container
+registry, run from within the built provisioning machine:
+
+    ./docker-dance.sh IMAGE
+
+Where `IMAGE` is the full image name and tag you wish to use (e.g.,
+`ubuntu:latest`).
 
 To destroy the infrastructure:
 
@@ -51,10 +60,3 @@ than running the `Makefile`.
 **Note** The public SSH key is given as a variable, but the private key
 also needs to exist. It is assumed to have the same filename, with the
 `.pub` suffix stripped off.
-
-## To Do...
-
-* [ ] Docker configuration, to talk to the Google Cloud container
-      registry.
-* [ ] Convenience script to pull, retag and push Docker images to the
-      Google Cloud container registry.

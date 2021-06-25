@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -eu
+
+declare IMAGE="$1"
+declare TAG="eu.gcr.io/{{ google.project.container }}/${IMAGE}"
+
+# Activate Docker Google Cloud configuration
+gcloud config configurations activate docker
+
+# Pull, tag and push image
+docker pull "${IMAGE}"
+docker tag "${IMAGE}" "${TAG}"
+docker push "${TAG}"

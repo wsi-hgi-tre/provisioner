@@ -3,9 +3,17 @@ tre:
   # The Git branch to checkout for the TRE codebase
   branch: sanger-production
 
-  # The Google Cloud project names
-  gcp:
+google:
+  # Google Cloud project names
+  project:
     master: fg-qmul-production-master
+    container: fg-qmul-containers
+
+  # Google Cloud service accounts
+  sa:
+    container:
+      account: container-registry
+      key: /PATH/TO/CONTAINER/REGISTRY/SA/KEY
 
 github:
   # Your GitHub username and password/authentication token, to allow you
