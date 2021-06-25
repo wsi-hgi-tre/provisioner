@@ -40,10 +40,6 @@ resource "openstack_compute_instance_v2" "instance" {
 
   security_groups = var.security-groups
   network { name = var.network }
-
-  metadata = {
-    username = var.username
-  }
 }
 
 resource "openstack_compute_floatingip_associate_v2" "floating-ip" {
