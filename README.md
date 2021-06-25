@@ -11,11 +11,25 @@ manage the Solita TRE.
   * Local provider 2.1.0
 * Ansible 2.11
   * [`ansible.posix` module 1.2.0](https://galaxy.ansible.com/ansible/posix)
-* OpenStack `clouds.yaml`
+* OpenStack `clouds.yaml` for API access
+
+## Initial Configuration
+
+You will need to create an `ansible/vars.yml` file, that contains:
+
+* The TRE's GitHub repository;
+* The branch of this repository;
+* Your GitHub username (to clone the TRE repository);
+* Your GitHub password or authentication token.
+
+An example file can be found in `ansible/vars.yml.example`.
+
+**Warning** Do not check `ansible/vars.yml` in!
 
 ## Usage
 
-To build the infrastructure and provision the machine:
+Once your configuration is complete you may build the infrastructure and
+provision the machine with:
 
     make
 
@@ -23,11 +37,11 @@ To destroy the infrastructure:
 
     make destroy
 
-## Customisation
+## Infrastructure Customisation
 
 The infrastructure is built with Terraform from the `infrastructure`
 directory. The `variables.tf` file outlines what variables can be set;
-all of them have Sanger/HGI defaults -- besides the username, that is
+all of them have Sanger/HGI defaults -- besides the username, which is
 determined at runtime -- but they can be overridden manually, rather
 than running the `Makefile`.
 

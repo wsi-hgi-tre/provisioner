@@ -59,3 +59,11 @@
     - google-cloud-sdk
     - kubectl
     update_cache: yes
+
+- name: Checkout the TRE codebase
+  ansible.builtin.git:
+    repo: "https://{{ github.username | urlencode }}:{{ github.password | urlencode }}@github.com/{{ tre.repo }}"
+    version: "{{ tre.branch }}"
+    dest: /home/ubuntu/finngen
+    single_branch: yes
+  become: no
