@@ -1,10 +1,11 @@
 ---
 tre:
-  # The GitHub repository for the TRE codebase (omitting the github.com)
-  repo: wsi-hgi-tre/finngen-v3.git
-
-  # The branch within the repository to checkout
+  # The Git branch to checkout for the TRE codebase
   branch: sanger-production
+
+  # The Google Cloud project names
+  gcp:
+    master: fg-qmul-production-master
 
 github:
   # Your GitHub username and password/authentication token, to allow you

@@ -17,8 +17,8 @@ manage the Solita TRE.
 
 You will need to create an `ansible/vars.yml` file, that contains:
 
-* The TRE's GitHub repository;
-* The branch of this repository;
+* The Git branch of the TRE repository to check out;
+* The Google Cloud master project name;
 * Your GitHub username (to clone the TRE repository);
 * Your GitHub password or authentication token.
 
@@ -32,6 +32,9 @@ Once your configuration is complete you may build the infrastructure and
 provision the machine with:
 
     make
+
+The TRE codebase is checked out into `~/finngen`, at the branch declared
+in `ansible/vars.yml`.
 
 To destroy the infrastructure:
 
@@ -48,3 +51,10 @@ than running the `Makefile`.
 **Note** The public SSH key is given as a variable, but the private key
 also needs to exist. It is assumed to have the same filename, with the
 `.pub` suffix stripped off.
+
+## To Do...
+
+* [ ] Docker configuration, to talk to the Google Cloud container
+      registry.
+* [ ] Convenience script to pull, retag and push Docker images to the
+      Google Cloud container registry.

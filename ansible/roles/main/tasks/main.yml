@@ -60,10 +60,24 @@
     - kubectl
     update_cache: yes
 
+- name: Create Google Cloud SDK directory structure
+  ansible.builtin.file:
+    path: ~/.config/gcloud/configurations
+    state: directory
+  become: no
+
+- name: Write Google Cloud SDK "finngen" configuration
+  ansible.builtin.template:
+    src: config_finngen.j2
+    dest: ~/.config/gcloud/configurations/config_finngen
+  become: no
+
+# TODO: Set up Docker/GCP configuration
+
 - name: Checkout the TRE codebase
   ansible.builtin.git:
-    repo: "https://{{ github.username | urlencode }}:{{ github.password | urlencode }}@github.com/{{ tre.repo }}"
+    repo: "https://{{ github.username | urlencode }}:{{ github.password | urlencode }}@github.com/wsi-hgi-tre/finngen-v3.git"
     version: "{{ tre.branch }}"
-    dest: /home/ubuntu/finngen
+    dest: ~/finngen
     single_branch: yes
   become: no
