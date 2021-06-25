@@ -1,0 +1,61 @@
+---
+- name: Wait for any unattended upgrade to finish
+  ansible.builtin.raw: >
+    systemd-run --property="After=apt-daily.service apt-daily-upgrade.service" \
+                --wait /bin/true
+
+# Some Google Cloud components don't like IPv6 ingress
+- name: Disable IPv6
+  ansible.posix.sysctl: name={{ item }} value=1 state=present reload=yes
+  with_items:
+  - net.ipv6.conf.all.disable_ipv6
+  - net.ipv6.conf.default.disable_ipv6
+  - net.ipv6.conf.lo.disable_ipv6
+
+- name: Blacklist IPv6 in modprobe
+  ansible.builtin.lineinfile:
+    dest: /etc/modprobe.d/blacklist.conf
+    line: "blacklist ipv6"
+    mode: "0644"
+    create: yes
+
+- name: Install prerequisites
+  ansible.builtin.apt:
+    pkg:
+    - apt-transport-https
+    - ca-certificates
+    - gnupg
+    update_cache: yes
+
+- name: Install toolchain from standard packages
+  ansible.builtin.apt:
+    pkg:
+    - coreutils
+    - expect
+    - gawk
+    - git
+    - ipcalc
+    - jq
+    - make
+    - mysql-client
+    - postgresql-client
+    - sed
+    update_cache: yes
+
+- name: Download the Google Cloud SDK package repository signing key
+  ansible.builtin.get_url:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    dest: /etc/apt/trusted.gpg.d/gcloud.gpg
+
+- name: Add Google Cloud SDK package repository source
+  ansible.builtin.apt_repository:
+    filename: google-cloud-sdk.list
+    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/gcloud.gpg] https://packages.cloud.google.com/apt cloud-sdk main"
+    update_cache: yes
+
+- name: Install Google Cloud toolchain
+  ansible.builtin.apt:
+    pkg:
+    - google-cloud-sdk
+    - kubectl
+    update_cache: yes

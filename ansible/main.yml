@@ -1,0 +1,5 @@
+---
+- hosts: main
+  become: true
+  roles:
+  - main
