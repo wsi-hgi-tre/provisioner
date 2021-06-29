@@ -40,10 +40,11 @@ in `ansible/vars.yml`.
 To push an image from DockerHub into the Google Cloud container
 registry, run from within the built provisioning machine:
 
-    ./docker-dance.sh IMAGE
+    ./docker-dance.sh IMAGE [GCR_IMAGE]
 
 Where `IMAGE` is the full image name and tag you wish to use (e.g.,
-`ubuntu:latest`).
+`ubuntu:latest`). The Google Cloud image will be given the same `IMAGE`
+name, but this can be overridden by specifying a `GCR_IMAGE` argument.
 
 To destroy the infrastructure:
 

@@ -2,7 +2,7 @@
 set -eu
 
 declare IMAGE="$1"
-declare TAG="eu.gcr.io/{{ google.project.container }}/${IMAGE}"
+declare TAG="eu.gcr.io/{{ google.project.container }}/${2-${IMAGE}}"
 
 # Activate Docker Google Cloud configuration
 gcloud config configurations activate docker
