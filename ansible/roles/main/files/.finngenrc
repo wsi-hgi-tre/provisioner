@@ -1,0 +1,43 @@
+declare _FINNGEN_REPO="/home/ubuntu/finngen"
+
+_activate_finngen() {
+  local active_config="$(gcloud config configurations list --format=json \
+                       | jq -r '.[] | select(.is_active).name')"
+
+  if [[ "${active_config}" != "finngen" ]]; then
+    gcloud config configurations activate finngen
+  fi
+}
+
+_auto_finngen() {
+  local envvar
+  local -a output=()
+
+  if [[ "$(pwd)" == "${_FINNGEN_REPO}" ]] || [[ "$(pwd)" == "${_FINNGEN_REPO}/"* ]]; then
+    # Activate finngen Google Cloud configuration
+    _activate_finngen >/dev/null 2>&1
+
+    # Check environment variables
+    for envvar in "FINNGEN_ENVIRONMENT" "FINNGEN_SANDBOX_ID"; do
+      if [[ "${!envvar+x}" ]]; then
+        output+=("${envvar}=${!envvar}")
+      else
+        output+=("${envvar}=<Not Set>")
+      fi
+    done
+
+    echo ""
+    echo "$(tput setaf 2)${output[*]}$(tput sgr0)"
+
+    # Check repository is clean
+    if [[ -n "$(git status -s)" ]]; then
+      echo "$(tput setaf 7)Repository contains uncommitted changes: Commit and push before destruction!$(tput sgr0)"
+    fi
+  fi
+}
+
+# Make sure variables are exported
+export FINNGEN_ENVIRONMENT
+export FINNGEN_SANDBOX_ID
+
+PROMPT_COMMAND="_auto_finngen"

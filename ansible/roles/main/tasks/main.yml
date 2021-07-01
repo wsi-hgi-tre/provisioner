@@ -85,7 +85,7 @@
 - name: Copy Google Cloud service account key for container registry
   ansible.builtin.copy:
     src: "{{ google.sa.container.key }}"
-    dest: ~/container-registry.key.json
+    dest: ~/.container-registry.key.json
     mode: "0600"
   become: no
 
@@ -93,7 +93,7 @@
 - name: Activate container registry service account and configure Docker
   ansible.builtin.shell: |
     gcloud config configurations activate docker
-    gcloud auth activate-service-account {{ google.sa.container.account }}@{{ google.project.container }}.iam.gserviceaccount.com --key-file=/home/ubuntu/container-registry.key.json
+    gcloud auth activate-service-account {{ google.sa.container.account }}@{{ google.project.container }}.iam.gserviceaccount.com --key-file=/home/ubuntu/.container-registry.key.json
     gcloud auth configure-docker --quiet
   become: no
 
@@ -110,4 +110,16 @@
     version: "{{ tre.branch }}"
     dest: ~/finngen
     single_branch: yes
+  become: no
+
+- name: Copy Bash prompt helper script
+  ansible.builtin.copy:
+    src: .finngenrc
+    dest: ~/.finngenrc
+  become: no
+
+- name: Enable Bash prompt helper
+  ansible.builtin.lineinfile:
+    dest: ~/.bashrc
+    line: "source ~/.finngenrc"
   become: no
