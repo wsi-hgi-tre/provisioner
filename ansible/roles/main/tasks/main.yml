@@ -123,3 +123,10 @@
     dest: ~/.bashrc
     line: "source ~/.finngenrc"
   become: no
+
+- name: Set environment variables
+  ansible.builtin.lineinfile:
+    dest: ~/.bashrc
+    line: "{{ item.key }}={{ item.value }}"
+  become: no
+  loop: "{{ query('dict', tre.environment | default({})) }}"

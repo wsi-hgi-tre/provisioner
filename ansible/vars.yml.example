@@ -3,6 +3,11 @@ tre:
   # The Git branch to checkout for the TRE codebase
   branch: sanger-production
 
+  # Optional: Any environment variables you want to set
+  # environment:
+  #   FINNGEN_ENVIRONMENT: qmul-production
+  #   FINNGEN_SANDBOX_ID: 1
+
 google:
   # Google Cloud project names
   project:

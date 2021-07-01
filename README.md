@@ -22,6 +22,12 @@ You will need to create an `ansible/vars.yml` file, that contains:
 * The container registry service account and key file;
 * Your GitHub username and password/authentication token.
 
+**Note** You may also set arbitrary environment variables in this
+configuration, under `tre.environment`. Useful variables include
+`FINNGEN_ENVIRONMENT` and `FINNGEN_SANDBOX_ID`, which will avoid the
+need to set these in the TRE's `make` targets. However, they are
+optional, if you would rather be explicit.
+
 An example file can be found in `ansible/vars.yml.example`.
 
 **Warning** Do not check `ansible/vars.yml` or any Google Cloud service
