@@ -7,7 +7,7 @@ declare TAG="eu.gcr.io/{{ google.project.container }}/${2-${IMAGE}}"
 # Activate Docker Google Cloud configuration
 gcloud config configurations activate docker
 
-# Pull, tag and push image
-docker pull "${IMAGE}"
+# Pull (if not available), tag and push image
+docker image inspect "${IMAGE}" >/dev/null 2>&1 || docker pull "${IMAGE}"
 docker tag "${IMAGE}" "${TAG}"
 docker push "${TAG}"
