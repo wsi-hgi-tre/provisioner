@@ -43,6 +43,17 @@ provision the machine with:
 The TRE codebase is checked out into `~/finngen`, at the branch declared
 in `ansible/vars.yml`.
 
+**Note** While Google Cloud credentials are set up automatically on the
+provisioning machine, you will have to manually authenticate yourself
+for all Google Cloud processes:
+
+    gcloud auth login
+
+**Note** The Kubernetes credentials are not automatically set up on the
+provisioning machine. These can be acquired, if they exist, using the
+`get-k8s-credentials` make target in the `iac/master` directory of the
+TRE's codebase.
+
 To push an image from DockerHub into the Google Cloud container
 registry, run from within the built provisioning machine:
 
