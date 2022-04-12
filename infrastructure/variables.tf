@@ -13,7 +13,7 @@ variable "network" {
 variable "flavour" {
   description = "Machine flavour for the provisioning machine"
   type        = string
-  default     = "m2.medium"
+  default     = "m1.small"
 }
 
 variable "image" {
