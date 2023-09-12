@@ -40,7 +40,7 @@ account keys in!
 
 ### OpenStack `clouds.yaml`
 
-- The key labelled `openstack` must be renamed to the tennant you wish to use.
+- The key labelled `openstack` (under `clouds`) must be renamed to the tenant you wish to use.
 - You must also add your openstack password as a key below your username, i.e.
 ```yml
 user: username
