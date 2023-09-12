@@ -19,7 +19,7 @@ variable "flavour" {
 variable "image" {
   description = "Docker-enabled base Ubuntu Bionic image"
   type        = string
-  default     = "bionic-WTSI-docker_73623_ce89d144"
+  default     = "bionic-WTSI-docker_162461_53602ce3"
 }
 
 variable "username" {
