@@ -49,11 +49,17 @@ password: openstack-password
 
 ### SSH
 
-You'll need to have a `.ssh/id_rsa` and `.ssh/id_rsa.pub` file which will be what you'll be able to use to access the new machine.
+You'll need to have a `.ssh/id_rsa` and `.ssh/id_rsa.pub` file which will be
+what you'll be able to use to access the new machine. Alternatively you can set
+the `key` Terraform variable, e.g. to `~/.ssh/id_ed25519.pub`.
+
+The username for SSH is hardcoded in the base image (such as `ubuntu` - this
+should really be changed)
 
 ### Terraform
 
-- You can change the tennant being used in `infrastructure/variables.tf` file, and the instance name in `infrastructure/main.tf`. By default, it is based on your current username - if this is standard (such as `ubuntu` - this should really be changed)
+You can change the tenant being used in `infrastructure/variables.tf` file, and the instance name in `infrastructure/main.tf` (by default, it is based on your current username).
+
 ## Usage
 
 Once your configuration is complete you may build the infrastructure and
