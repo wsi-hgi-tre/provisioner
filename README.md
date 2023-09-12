@@ -67,6 +67,9 @@ provision the machine with:
 
     make
 
+It is likely to take several minutes (in particular, Ansible may appear to hang
+at "Wait for any unattended upgrade to finish" for five minutes or more).
+
 The TRE codebase is checked out into `~/finngen`, at the branch declared
 in `ansible/vars.yml`.
 
