@@ -6,11 +6,12 @@ manage the Solita TRE.
 ## Dependencies
 
 * GNU Make
-* Terraform 1.0
+* Terraform 1.0 – [download](https://developer.hashicorp.com/terraform/downloads)
   * OpenStack provider 1.42
   * Local provider 2.1.0
-* Ansible 2.11 (it may be easier to install this using `pip` instead of `apt` to get the correct version - i.e. `pip3 install ansible` and then modify your `$PATH`)
-  * [`ansible.posix` module 1.2.0](https://galaxy.ansible.com/ansible/posix)
+  * (these providers are installed automatically)
+* Ansible 2.11 – `pip3 install ansible ansible-core==2.11 'Jinja2<3.1'` (https://github.com/ansible/ansible/issues/77413)
+  * [`ansible.posix` module 1.2.0](https://galaxy.ansible.com/ansible/posix) – `ansible-galaxy collection install ansible.posix:1.2.0`
 * OpenStack `clouds.yaml` for API access (this can be downloaded from `API Access` -> `Download OpenStack RC File`). This must be saved at `~/.config/openstack/clouds.yaml`
 
 ## Initial Configuration
