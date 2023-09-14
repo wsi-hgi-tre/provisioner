@@ -49,12 +49,12 @@
 - name: Download the Google Cloud SDK package repository signing key
   ansible.builtin.get_url:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-    dest: /etc/apt/trusted.gpg.d/gcloud.gpg
+    dest: /etc/apt/trusted.gpg.d/gcloud.asc
 
 - name: Add Google Cloud SDK package repository source
   ansible.builtin.apt_repository:
     filename: google-cloud-sdk.list
-    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/gcloud.gpg] https://packages.cloud.google.com/apt cloud-sdk main"
+    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/gcloud.asc] https://packages.cloud.google.com/apt cloud-sdk main"
     update_cache: yes
 
 - name: Install Google Cloud toolchain

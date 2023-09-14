@@ -6,11 +6,12 @@ manage the Solita TRE.
 ## Dependencies
 
 * GNU Make
-* Terraform 1.0
+* Terraform 1.0 – [download](https://developer.hashicorp.com/terraform/downloads)
   * OpenStack provider 1.42
   * Local provider 2.1.0
-* Ansible 2.11 (it may be easier to install this using `pip` instead of `apt` to get the correct version - i.e. `pip3 install ansible` and then modify your `$PATH`)
-  * [`ansible.posix` module 1.2.0](https://galaxy.ansible.com/ansible/posix)
+  * (these providers are installed automatically)
+* Ansible 2.11 – `pip3 install ansible ansible-core==2.11 'Jinja2<3.1'` (https://github.com/ansible/ansible/issues/77413)
+  * [`ansible.posix` module 1.2.0](https://galaxy.ansible.com/ansible/posix) – `ansible-galaxy collection install ansible.posix:1.2.0`
 * OpenStack `clouds.yaml` for API access (this can be downloaded from `API Access` -> `Download OpenStack RC File`). This must be saved at `~/.config/openstack/clouds.yaml`
 
 ## Initial Configuration
@@ -39,7 +40,7 @@ account keys in!
 
 ### OpenStack `clouds.yaml`
 
-- The key labelled `openstack` must be renamed to the tennant you wish to use.
+- The key labelled `openstack` (under `clouds`) must be renamed to the tenant you wish to use.
 - You must also add your openstack password as a key below your username, i.e.
 ```yml
 user: username
@@ -48,17 +49,26 @@ password: openstack-password
 
 ### SSH
 
-You'll need to have a `.ssh/id_rsa` and `.ssh/id_rsa.pub` file which will be what you'll be able to use to access the new machine.
+You'll need to have a `.ssh/id_rsa` and `.ssh/id_rsa.pub` file which will be
+what you'll be able to use to access the new machine. Alternatively you can set
+the `key` Terraform variable, e.g. to `~/.ssh/id_ed25519.pub`.
+
+The username for SSH is hardcoded in the base image (such as `ubuntu` - this
+should really be changed)
 
 ### Terraform
 
-- You can change the tennant being used in `infrastructure/variables.tf` file, and the instance name in `infrastructure/main.tf`. By default, it is based on your current username - if this is standard (such as `ubuntu` - this should really be changed)
+You can change the tenant being used in `infrastructure/variables.tf` file, and the instance name in `infrastructure/main.tf` (by default, it is based on your current username).
+
 ## Usage
 
 Once your configuration is complete you may build the infrastructure and
 provision the machine with:
 
     make
+
+It is likely to take several minutes (in particular, Ansible may appear to hang
+at "Wait for any unattended upgrade to finish" for five minutes or more).
 
 The TRE codebase is checked out into `~/finngen`, at the branch declared
 in `ansible/vars.yml`.
